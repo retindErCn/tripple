@@ -7,7 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.OrderBy;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,14 +22,18 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.mysema.query.types.Predicate;
+import com.mysema.query.types.Visitor;
 import com.tripple.Entity.httpHeader;
 import com.tripple.Entity.httpParams;
 import com.tripple.Entity.httpRequest;
+import com.tripple.Model.QhttpRequest;
 import com.tripple.Repos.httpHeaderRepo;
 import com.tripple.Repos.httpParamRepo;
 import com.tripple.Repos.httpRequestRepo;
 import com.tripple.api.pojo.apiRequest;
 import com.tripple.api.pojo.header;
+import com.tripple.api.pojo.requestDto;
 import com.tripple.common.jsonHelper;
 
 @Component
@@ -36,6 +47,8 @@ public class apiService {
 	httpParamRepo httpParamRepo;
 	@Autowired
 	jsonHelper jsonHelper;
+
+	private static final QhttpRequest qtp = QhttpRequest.httpRequest;
 
 	public apiRequest generateAPI(Map<?, ?> map) {
 		String method = (String) map.get("method");
@@ -78,7 +91,8 @@ public class apiService {
 			while (param.hasNext()) {
 				String paramName = param.next();
 				String paramValue = String.valueOf(paramsJson.get(paramName));
-				//paramValue = paramValue.substring(2, paramValue.length() - 2);
+				// paramValue = paramValue.substring(2, paramValue.length() -
+				// 2);
 				params.put(paramName, paramValue);
 
 			}
@@ -94,7 +108,7 @@ public class apiService {
 
 	@Transactional
 	public httpRequest apiSaved(apiRequest api) {
-		
+
 		System.out.println(api.toString());
 		httpRequest request = httpRequest.builder().url(api.getUrl())
 				.httpMethod(api.getMethod()).build();
@@ -121,6 +135,52 @@ public class apiService {
 							httpParamRepo.save(param);
 						});
 		return req;
+	}
+
+	@Transactional
+	public void deleteAPI(Long requestid) {
+
+		httpRequestRepo.delete(requestid);
+
+		List<httpHeader> headers = httpHeaderRepo.findByRequestid(requestid);
+		headers.stream().forEach(x -> httpHeaderRepo.delete(x));
+
+		httpParamRepo.findByRequestid(requestid).forEach(
+				x -> httpParamRepo.delete(x));
+
+	}
+
+	@Transactional
+	public httpRequest modifyAPI(httpRequest request, requestDto requestdto) {
+		request.setName(requestdto.getName() == null ? request.getName()
+				: requestdto.getName());
+		request.setApilevel(requestdto.getApilevel() == null ? request
+				.getApilevel() : requestdto.getApilevel());
+		request.setHttpMethod(requestdto.getHttpMethod() == null ? request
+				.getHttpMethod() : requestdto.getHttpMethod());
+		request.setDescription(requestdto.getDescription() == null ? request
+				.getDescription() : requestdto.getDescription());
+		request.setIsOn(requestdto.getIsOn() == null ? request.getIsOn()
+				: requestdto.getIsOn());
+		request.setUrl(requestdto.getUrl() == null ? request.getUrl()
+				: requestdto.getUrl());
+
+		final httpRequest req = httpRequestRepo.save(request);
+		return req;
+	}
+
+	@Transactional
+	public httpRequest infoAPI(Long id) {
+		final httpRequest req = httpRequestRepo.findOne(id);
+		return req;
+	}
+
+	public Page<httpRequest> getApiByPage(Pageable page) {
+		Sort sort = new Sort(Direction.DESC, "id");
+		Pageable x = new PageRequest(page.getPageNumber(), page.getPageSize(),
+				sort);
+		return httpRequestRepo.findAll(x);
+
 	}
 
 }

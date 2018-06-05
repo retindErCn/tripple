@@ -15,46 +15,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tripple.Entity.httpHeader;
 import com.tripple.Entity.httpRequest;
+import com.tripple.api.pojo.header;
+import com.tripple.api.pojo.headerDto;
 import com.tripple.api.pojo.requestDto;
 import com.tripple.api.service.apiService;
+import com.tripple.api.service.headerService;
 import com.tripple.common.restResult;
 
 @RestController
-@RequestMapping(value = "/api/{requestId}")
-public class apiController {
+@RequestMapping(value = "/header/{headerId}")
+public class headerController {
 	/**
 	 * binder
 	 */
 
 	@Autowired
-	apiService api;
+	headerService header;
 
 	@ModelAttribute
-	public void fillRequest(@PathVariable("requestId") httpRequest request,
+	public void fillRequest(@PathVariable("header") httpHeader header,
 			ModelMap model) {
-		model.put("httpRequest", request);
+		model.put("header", header);
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public restResult<?> deleteApi(@PathVariable("requestid") Long reqid) {
-		api.deleteAPI(reqid);
+	public restResult<?> deleteHeader(@PathVariable("headerId") Long headerId) {
+		header.deleteHeader(headerId);
 		return restResult.Ok();
 	}
 
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
 	public restResult<?> modifyApi(
-			@Valid @ModelAttribute("httpRequest") httpRequest request,
-			requestDto requestdto) {
-		
-		return restResult.Ok(api.modifyAPI(request,requestdto));
+			@Valid @ModelAttribute("header") httpHeader e, headerDto headerDto) {
+
+		return restResult.Ok(header.modifyHeader(e, headerDto));
 	}
 
 	@RequestMapping(value = "/info", method = RequestMethod.POST)
-	public restResult<?> infoOfApi(@PathVariable("requestId") Long requestId) {
-		
-		return restResult.Ok(api.infoAPI(requestId));
+	public restResult<?> infoOfApi(@PathVariable("headerId") Long headerId) {
+
+		return restResult.Ok(header.infoHeader(headerId));
 	}
 
-	
 }

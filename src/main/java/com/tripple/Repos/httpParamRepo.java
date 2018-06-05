@@ -14,5 +14,6 @@ import com.tripple.Entity.httpParams;
 public interface httpParamRepo extends JpaRepository<httpParams, Long>,
 		QueryDslPredicateExecutor<httpParams> {
 	List<httpParams> findById(Long[] ids);
+	List<httpParams> findByRequestid(Long requestId);
 
 }

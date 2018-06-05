@@ -15,29 +15,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tripple.Entity.httpHeader;
 import com.tripple.Entity.httpRequest;
 import com.tripple.api.pojo.apiRequest;
+import com.tripple.api.pojo.headerDto;
 import com.tripple.api.service.apiService;
+import com.tripple.api.service.headerService;
 import com.tripple.common.restResult;
 
 @RestController
-@RequestMapping(value = "/api/")
-public class apiRestController {
+@RequestMapping(value = "/header")
+public class headerRestController {
 	/**
 	 * binder
 	 */
 	@Autowired
-	apiService service;
+	headerService service;
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public restResult<?> addApi(@RequestBody Map api) {
-		apiRequest req = service.generateAPI(api);
-		return restResult.Ok(service.apiSaved(req));
+	@RequestMapping(value = "/{requestid}/add", method = RequestMethod.POST)
+	public restResult<?> addApi(headerDto header) {
+
+		return restResult.Ok(service.addHeader(header));
 	}
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public Page<httpRequest> ListApi(Pageable page) {
+	@RequestMapping(value = "/{requestid}/list", method = RequestMethod.GET)
+	public Page<httpHeader> ListApi(@PathVariable("requestid") Long requestid,
+			Pageable page) {
 
-		return service.getApiByPage(page);
+		return service.getheaderByPage(requestid, page);
 	}
 }
