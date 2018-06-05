@@ -6,12 +6,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.stereotype.Component;
 
 import com.tripple.Entity.httpHeader;
 import com.tripple.Entity.httpRequest;
 import com.tripple.Repos.httpHeaderRepo;
 import com.tripple.api.pojo.headerDto;
 
+@Component
 public class headerService {
 
 	@Autowired

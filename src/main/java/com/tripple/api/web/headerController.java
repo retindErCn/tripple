@@ -35,7 +35,7 @@ public class headerController {
 	headerService header;
 
 	@ModelAttribute
-	public void fillRequest(@PathVariable("header") httpHeader header,
+	public void fillRequest(@PathVariable("headerId") httpHeader header,
 			ModelMap model) {
 		model.put("header", header);
 	}
