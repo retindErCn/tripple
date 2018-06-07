@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.tripple.enumType.paramType;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,6 +36,7 @@ public class httpParams extends BusinessEntity implements Serializable{
 	@Column(length = 1000)
 	String paramValue;
 
+	paramType paramType;
 	@Column(length = 1000)
 	String defaultValue;
 

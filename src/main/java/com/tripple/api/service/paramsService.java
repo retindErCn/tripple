@@ -1,5 +1,7 @@
 package com.tripple.api.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,10 +13,10 @@ import org.springframework.stereotype.Component;
 import com.tripple.Entity.httpHeader;
 import com.tripple.Entity.httpParams;
 import com.tripple.Entity.httpRequest;
-
 import com.tripple.Repos.httpParamRepo;
 import com.tripple.api.pojo.paramDto;
 import com.tripple.api.pojo.paramDto;
+import com.tripple.enumType.paramType;
 
 @Component
 public class paramsService {
@@ -37,6 +39,8 @@ public class paramsService {
 				.getDescription() : paramDto.getDescription());
 		param.setIsMust(paramDto.getIsMust() == null ? param.getIsMust()
 				: paramDto.getIsMust());
+		param.setParamType(paramDto.getParamType() == null ? param
+				.getParamType() : paramDto.getParamType());
 		final httpParams p = paramRepo.save(param);
 		return p;
 
@@ -52,7 +56,7 @@ public class paramsService {
 				.paramValue(param.getParamValue())
 				.defaultValue(param.getDefaultValue())
 				.description(param.getDescription()).isMust(param.getIsMust())
-				.build();
+				.paramType(param.getParamType()).build();
 		return paramRepo.save(x);
 	}
 
@@ -62,6 +66,12 @@ public class paramsService {
 				sort);
 
 		return paramRepo.findByRequestid(requestid, page);
+
+	}
+
+	public List<httpParams> getparamsByRequestid(Long requestid) {
+
+		return paramRepo.findByRequestid(requestid);
 
 	}
 }

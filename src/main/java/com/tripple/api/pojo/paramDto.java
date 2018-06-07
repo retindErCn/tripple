@@ -1,5 +1,7 @@
 package com.tripple.api.pojo;
 
+import com.tripple.enumType.paramType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +16,7 @@ public class paramDto {
 	String paramName;
 
 	String paramValue;
-
+	paramType paramType;
 	String defaultValue;
 
 	String description;

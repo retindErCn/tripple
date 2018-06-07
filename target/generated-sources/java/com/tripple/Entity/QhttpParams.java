@@ -37,6 +37,8 @@ public class QhttpParams extends EntityPathBase<httpParams> {
 
     public final StringPath paramName = createString("paramName");
 
+    public final EnumPath<com.tripple.enumType.paramType> paramType = createEnum("paramType", com.tripple.enumType.paramType.class);
+
     public final StringPath paramValue = createString("paramValue");
 
     public final NumberPath<Long> requestid = createNumber("requestid", Long.class);
