@@ -15,4 +15,6 @@ public interface testStepRepo extends JpaRepository<testStep, Long>,
 		QueryDslPredicateExecutor<testStep> {
 	List<testStep> findById(Long[] ids);
 
+	List<testStep> findByTestSuiteId(Long testsuiteid);
+
 }
