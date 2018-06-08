@@ -4,10 +4,12 @@ import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
+import com.alibaba.druid.sql.visitor.functions.Substring;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONPath;
 import com.tripple.api.pojo.trippleLog;
 import com.tripple.api.pojo.trippleLog.logtype;
 import com.tripple.enumType.customOperator;
-
 
 @Component
 public class stepHandler {
@@ -49,6 +51,19 @@ public class stepHandler {
 									"runningVars contains:" + left
 											+ ". It will be overwrite!!")
 							.build());
+		}
+		// 如果是之前接口返回的json的path作为参数，稍微做一下转换
+		// 如：$.134.Response.content;
+		// 134 代表requestid，代表执行134的返回之后，取返回的content
+		if (right.startsWith("$") && right.contains(".")) {
+			int index = right.indexOf("Response");
+			String key = right.substring(0, index).replace("$", "")
+					.replace(".", "");
+			String json = context.getRuntimeVarivables().get(key);
+			if (json != null) {
+				right = JSONPath.eval(JSONObject.parse(json),
+						"$" + right.substring(index + 8)).toString();
+			}
 		}
 		context.getRuntimeVarivables().put(left, right);
 	}

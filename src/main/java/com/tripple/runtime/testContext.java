@@ -1,6 +1,7 @@
 package com.tripple.runtime;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Queue;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ import com.tripple.api.pojo.trippleLog;
 public class testContext {
 
 	HashMap<String, String> runtimeVarivables;
-	Queue<trippleLog> runTimeLogs;
+	List<trippleLog> runTimeLogs;
 	int passedTest;
 	int failedTest;
 	int skipedTest;

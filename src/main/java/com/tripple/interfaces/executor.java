@@ -45,32 +45,35 @@ import com.tripple.suite.service.testSuiteService;
 
 public class executor {
 
-	OkHttpClient client = new OkHttpClient();
+	OkHttpClient client;
 
-	testContext context = new testContext();
+	testContext context;
 	runTimeLog logger;
 
-	@Value("${upload.filepath}")
 	String filePath;
 
-	@Autowired
-	headerService headerService;
-	@Autowired
-	paramsService paramsService;
-	@Autowired
-	apiService apiService;
-	@Autowired
-	suiteToStepService suiteToStepService;
-	@Autowired
-	testSuiteService testSuiteService;
-	@Autowired
-	testStepService testStepService;
+	headerService headerService = new headerService();
+
+	paramsService paramsService = new paramsService();
+
+	apiService apiService = new apiService();
+
+	suiteToStepService suiteToStepService = new suiteToStepService();
+
+	testSuiteService testSuiteService = new testSuiteService();
+
+	testStepService testStepService = new testStepService();
+
+	public executor(OkHttpClient client, testContext context, String filePath) {
+		this.client = client;
+		this.context = context;
+	}
 
 	public void setLog(trippleLog log) {
 		this.context.getRunTimeLogs().add(log);
 	}
 
-	public Queue<trippleLog> getLog() {
+	public List<trippleLog> getLog() {
 		return this.context.getRunTimeLogs();
 	}
 
@@ -112,6 +115,8 @@ public class executor {
 		} finally {
 			if (isSucc(res.code())) {
 				this.context.setPassedTest(context.getPassedTest() + 1);
+				this.context.getRuntimeVarivables().put(req.getId().toString(),
+						result);
 			} else {
 				this.context.setFailedTest(context.getFailedTest() + 1);
 			}
@@ -190,6 +195,8 @@ public class executor {
 			} finally {
 				if (isSucc(res.code())) {
 					this.context.setPassedTest(context.getPassedTest() + 1);
+					this.context.getRuntimeVarivables().put(
+							req.getId().toString(), result);
 				} else {
 					this.context.setFailedTest(context.getFailedTest() + 1);
 				}
@@ -249,6 +256,8 @@ public class executor {
 			} finally {
 				if (isSucc(res.code())) {
 					this.context.setPassedTest(context.getPassedTest() + 1);
+					this.context.getRuntimeVarivables().put(
+							req.getId().toString(), result);
 				} else {
 					this.context.setFailedTest(context.getFailedTest() + 1);
 				}
@@ -279,6 +288,8 @@ public class executor {
 			} finally {
 				if (isSucc(res.code())) {
 					this.context.setPassedTest(context.getPassedTest() + 1);
+					this.context.getRuntimeVarivables().put(
+							req.getId().toString(), result);
 				} else {
 					this.context.setFailedTest(context.getFailedTest() + 1);
 				}
