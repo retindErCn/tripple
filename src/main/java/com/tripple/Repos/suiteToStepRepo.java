@@ -1,6 +1,5 @@
 package com.tripple.Repos;
 
-
 import java.util.List;
 
 import org.springframework.context.annotation.ComponentScan;
@@ -17,8 +16,9 @@ import com.tripple.Entity.suiteToStep;
 public interface suiteToStepRepo extends JpaRepository<suiteToStep, Long>,
 		QueryDslPredicateExecutor<suiteToStep> {
 	List<suiteToStep> findById(Long[] ids);
-	
-	Page<suiteToStep> findByTestSuiteId(Long testsuiteid,Pageable page);
-	List<suiteToStep> findByTestSuiteId(Long testsuiteid);
+
+	Page<suiteToStep> findByTestsuiteId(Long testsuiteid, Pageable page);
+
+	List<suiteToStep> findByTestsuiteId(Long testsuiteid);
 
 }

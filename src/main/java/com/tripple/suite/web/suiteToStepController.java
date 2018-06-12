@@ -17,7 +17,7 @@ import com.tripple.suite.service.suiteToStepService;
 
 
 @RestController
-@RequestMapping(value = "/suite/{suiteId}")
+@RequestMapping(value = "/suiteToStep/{suiteId}")
 public class suiteToStepController {
 	@Autowired
 	suiteToStepService suiteToStepService;

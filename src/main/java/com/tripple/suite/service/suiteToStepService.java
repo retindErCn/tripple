@@ -8,11 +8,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.stereotype.Component;
 
 import com.tripple.Entity.suiteToStep;
 import com.tripple.Repos.suiteToStepRepo;
 import com.tripple.api.pojo.suiteToStepDto;
 
+
+@Component
 public class suiteToStepService {
 	@Autowired
 	suiteToStepRepo suiteToStepRepo;
@@ -58,13 +61,13 @@ public class suiteToStepService {
 		Pageable x = new PageRequest(page.getPageNumber(), page.getPageSize(),
 				sort);
 
-		return suiteToStepRepo.findByTestSuiteId(testsuiteid, page);
+		return suiteToStepRepo.findByTestsuiteId(testsuiteid, page);
 
 	}
 
 	public List<suiteToStep> getsuiteToStep(Long testsuiteid) {
 
-		return suiteToStepRepo.findByTestSuiteId(testsuiteid);
+		return suiteToStepRepo.findByTestsuiteId(testsuiteid);
 
 	}
 

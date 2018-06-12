@@ -8,13 +8,13 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.stereotype.Component;
 
 import com.tripple.Entity.httpHeader;
-import com.tripple.Entity.testStep;
+import com.tripple.Entity.testSuite;
+import com.tripple.Entity.user;
 
 @ComponentScan
-public interface testStepRepo extends JpaRepository<testStep, Long>,
-		QueryDslPredicateExecutor<testStep> {
-	List<testStep> findById(Long[] ids);
-
-	
+public interface userRepo extends JpaRepository<user, Long>,
+		QueryDslPredicateExecutor<testSuite> {
+	List<user> findById(Long[] ids);
+	user findByUserName(String username);
 
 }

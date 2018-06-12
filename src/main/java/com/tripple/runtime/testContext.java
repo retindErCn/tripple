@@ -39,7 +39,6 @@ public class testContext {
 		UUID uuid = UUID.randomUUID();
 		String str = uuid.toString();
 		String uuidStr = str.replace("-", "");
-
 		this.uniqid = uuidStr;
 	}
 

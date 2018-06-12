@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.stereotype.Component;
 
 import com.tripple.Entity.testStep;
 import com.tripple.Repos.testStepRepo;
@@ -15,6 +16,7 @@ import com.tripple.api.pojo.paramDto;
 import com.tripple.api.pojo.testStepDto;
 import com.tripple.enumType.customOperator;
 
+@Component
 public class testStepService {
 
 	@Autowired
@@ -68,13 +70,6 @@ public class testStepService {
 				sort);
 
 		return testStepRepo.findAll(page);
-
-	}
-	
-	public List<testStep> gettestStepByTestsuiteId(Long testsuiteid) {
-	
-
-		return testStepRepo.findByTestSuiteId(testsuiteid);
 
 	}
 
